@@ -1,0 +1,627 @@
+{
+  "datasets": [
+    {
+      "name": "9d9959f3",
+      "displayName": "traffic_weather",
+      "queryLines": [
+        "SELECT\r\n",
+        "    traffic_date,\r\n",
+        "    traffic_hour,\r\n",
+        "    total_probe_observations,\r\n",
+        "    active_road_segments,\r\n",
+        "    average_probe_count,\r\n",
+        "    average_speed_limit,\r\n",
+        "    unique_streets,\r\n",
+        "    avg_temperature,\r\n",
+        "    avg_humidity,\r\n",
+        "    total_precipitation,\r\n",
+        "    total_rain,\r\n",
+        "    avg_wind_speed,\r\n",
+        "    avg_cloud_cover\r\n",
+        "FROM workspace.default.gold_traffic_weather_hourly"
+      ]
+    },
+    {
+      "name": "9becf08b",
+      "displayName": "road_network",
+      "queryLines": [
+        "SELECT\r\n",
+        "    highway_type,\r\n",
+        "    total_road_segments,\r\n",
+        "    unique_road_names,\r\n",
+        "    average_speed_limit,\r\n",
+        "    one_way_segments\r\n",
+        "FROM workspace.default.gold_road_network_summary"
+      ]
+    },
+    {
+      "name": "34a6de82",
+      "displayName": "accident_summary",
+      "queryLines": [
+        "SELECT\r\n",
+        "    year,\r\n",
+        "    road_crashes,\r\n",
+        "    road_crash_fatalities,\r\n",
+        "    fatal_road_crashes,\r\n",
+        "    fatality_rate_per_100_crashes\r\n",
+        "FROM workspace.default.gold_accident_summary"
+      ]
+    },
+    {
+      "name": "8b477a0c",
+      "displayName": "transport_summary",
+      "queryLines": [
+        "SELECT\r\n",
+        "    route_id,\r\n",
+        "    route_long_name,\r\n",
+        "    route_type,\r\n",
+        "    scheduled_trips\r\n",
+        "FROM workspace.default.gold_transport_summary"
+      ]
+    },
+    {
+      "name": "traffic_weather_hourly_rows",
+      "displayName": "traffic_weather_hourly_rows",
+      "queryLines": [
+        "SELECT\n",
+        "  traffic_date,\n",
+        "  traffic_hour,\n",
+        "  avg_temperature,\n",
+        "  total_probe_observations\n",
+        "FROM\n",
+        "  workspace.default.gold_traffic_weather_hourly"
+      ]
+    },
+    {
+      "name": "6aa07267",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        ""
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "6ff096c6",
+      "displayName": "Untitled page",
+      "layout": [
+        {
+          "widget": {
+            "name": "facaabf4",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "9d9959f3",
+                  "fields": [
+                    {
+                      "name": "traffic_hour",
+                      "expression": "`traffic_hour`"
+                    },
+                    {
+                      "name": "sum(total_probe_observations)",
+                      "expression": "SUM(`total_probe_observations`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Hourly Traffic Activity"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "traffic_hour",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_probe_observations)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "43a9bf6d",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "34a6de82",
+                  "fields": [
+                    {
+                      "name": "sum(road_crashes)",
+                      "expression": "SUM(`road_crashes`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Total Road Crashes"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(road_crashes)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "007a3c63",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "9d9959f3",
+                  "fields": [
+                    {
+                      "name": "sum(total_probe_observations)",
+                      "expression": "SUM(`total_probe_observations`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Total Probe Observations",
+                  "fields": []
+                }
+              },
+              "sparkChart": {
+                "hide": false
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_probe_observations)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 0,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "00c67bb7",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "9d9959f3",
+                  "fields": [
+                    {
+                      "name": "avg(avg_temperature)",
+                      "expression": "AVG(`avg_temperature`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Average Temperature"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg(avg_temperature)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 0,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "daf0dbb8",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "34a6de82",
+                  "fields": [
+                    {
+                      "name": "year",
+                      "expression": "`year`"
+                    },
+                    {
+                      "name": "sum(road_crashes)",
+                      "expression": "SUM(`road_crashes`)"
+                    },
+                    {
+                      "name": "sum(road_crash_fatalities)",
+                      "expression": "SUM(`road_crash_fatalities`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Road Crashes & Fatalities by Year"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "year",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fields": [
+                    {
+                      "fieldName": "sum(road_crashes)"
+                    },
+                    {
+                      "fieldName": "sum(road_crash_fatalities)"
+                    }
+                  ],
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 3,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "4829c428",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "9becf08b",
+                  "fields": [
+                    {
+                      "name": "highway_type",
+                      "expression": "`highway_type`"
+                    },
+                    {
+                      "name": "sum(total_road_segments)",
+                      "expression": "SUM(`total_road_segments`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Road Segments by Highway Type",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "highway_type",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_road_segments)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": false
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "9e020c40",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8b477a0c",
+                  "fields": [
+                    {
+                      "name": "route_long_name",
+                      "expression": "`route_long_name`"
+                    },
+                    {
+                      "name": "sum(scheduled_trips)",
+                      "expression": "SUM(`scheduled_trips`)"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "SUM(`scheduled_trips`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Scheduled Trips by Route",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "route_long_name",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "number": 15,
+                      "type": "number-of-categories"
+                    },
+                    "sort": {
+                      "by": "measure-reversed",
+                      "measure": {
+                        "fieldName": "sum(scheduled_trips)"
+                      }
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(scheduled_trips)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 8,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "a80411c9",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "traffic_weather_hourly_rows",
+                  "fields": [
+                    {
+                      "name": "traffic_date",
+                      "expression": "`traffic_date`"
+                    },
+                    {
+                      "name": "traffic_hour",
+                      "expression": "`traffic_hour`"
+                    },
+                    {
+                      "name": "avg_temperature",
+                      "expression": "`avg_temperature`"
+                    },
+                    {
+                      "name": "total_probe_observations",
+                      "expression": "`total_probe_observations`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Temperature vs Probe Observations",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "opacity": 0.65,
+                "shape": "circle"
+              },
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "avg_temperature",
+                  "axis": {
+                    "title": "Average Temperature (°C)"
+                  },
+                  "format": {
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "places": 1,
+                      "type": "max"
+                    },
+                    "type": "number-plain"
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "total_probe_observations",
+                  "axis": {
+                    "title": "Total Probe Observations"
+                  },
+                  "format": {
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "places": 1,
+                      "type": "max"
+                    },
+                    "type": "number-plain"
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "traffic_date",
+                    "format": {
+                      "date": "year-month-day",
+                      "type": "date"
+                    }
+                  },
+                  {
+                    "fieldName": "traffic_hour",
+                    "format": {
+                      "abbreviation": "none",
+                      "type": "number-plain"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "b8d3cee1",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "a98323aa",
+            "spec": {
+              "encodings": {
+                "fields": []
+              },
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
